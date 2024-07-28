@@ -3,13 +3,11 @@ import { Image, Text, View } from "react-native";
 import {H,W, BackgroundClr} from './constant/Common';
 import SocialMediaIcons from "./components/SocialMediaIcons";
 import Button from "./components/Button";
-import Header from "./components/Header";
 
 
 const LandingPage =()=>{
     return(
         <View style={{flex:1, backgroundColor:BackgroundClr}}>
-            <Header/>
             <View style={{height:H(38), marginTop:H(5)}}>
                 <Image source={require('./assests/logo.png')} style={{resizeMode:'contain', height:H(40), width:W(60), alignSelf:'center'}} />
             </View>
