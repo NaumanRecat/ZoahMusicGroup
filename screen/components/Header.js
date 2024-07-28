@@ -3,7 +3,7 @@ import { View, Image, Text } from "react-native";
 import { H, W } from '../constant/Common';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-const Header = () => {
+const Header = (props) => {
     return (
         <View style={{ alignItems: 'center' }}>
             
@@ -19,7 +19,10 @@ const Header = () => {
                     <Text style={{ color: 'orange' }}>Back</Text>
                 </View>
 
-                <View>
+                {
+                    props?.icon ? 
+
+                    <View>
                     <View style={{
                         height: H(4.5),
                         width: W(28),
@@ -37,7 +40,10 @@ const Header = () => {
                             <Text style={{ fontWeight: 'bold', color: 'black' }} > Save Draft</Text>
                         </View>
                     </View>
-                </View>
+                </View> : null
+                }
+
+               
 
             </View>
         </View>
