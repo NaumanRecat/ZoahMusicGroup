@@ -15,7 +15,7 @@ const LandingPage =()=>{
             </View>
            <SocialMediaIcons/>
             <View style={{alignSelf:'center', marginTop:H(5)}}>
-                <Button/>
+                <Button txt={'SIGNUP'} />
                 <View style={{height:H(6), width:W(75), borderRadius:H(5), justifyContent:'center', alignItems:'center', borderColor:'orange', borderWidth:H(0.2), marginTop:H(2)}}><Text style={{color:'orange'}} >LOGIN</Text></View>
             </View>
             <View style={{width:W(70), alignSelf:'center', marginTop:H(4)}}>
