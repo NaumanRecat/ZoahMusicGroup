@@ -3,6 +3,8 @@ import { Image, Text, View } from "react-native";
 import {H,W, BackgroundClr} from './constant/Common';
 import SocialMediaIcons from "./components/SocialMediaIcons";
 import Button from "./components/Button";
+import Input from "./components/Input";
+Input
 
 
 const LandingPage =()=>{
