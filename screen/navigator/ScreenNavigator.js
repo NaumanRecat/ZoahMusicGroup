@@ -4,6 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import LandingPage from '../LandingPage';
 import Login from '../Login';
 import BottomTabNavigator from './BottomTabNavigator';
+import Aggrement from '../Agreement';
+
 
 
 const Stack = createNativeStackNavigator();
@@ -11,7 +13,8 @@ const Stack = createNativeStackNavigator();
 const ScreenNavigator =()=>{
   return(
     <NavigationContainer>
-        <Stack.Navigator initialRouteName="BottomTabNavigator">
+        <Stack.Navigator initialRouteName="Aggrement">
+        <Stack.Screen name="Aggrement" component={Aggrement} options={{headerShown:false}}/> 
         <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} options={{headerShown:false}}/> 
         <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/> 
         <Stack.Screen name="LandingPage" component={LandingPage} options={{headerShown:false}}/> 
