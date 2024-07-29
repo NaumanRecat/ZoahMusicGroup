@@ -4,7 +4,6 @@ import {H,W, BackgroundClr} from './constant/Common';
 import SocialMediaIcons from "./components/SocialMediaIcons";
 import Button from "./components/Button";
 import Input from "./components/Input";
-Input
 
 
 const LandingPage =()=>{
@@ -16,7 +15,7 @@ const LandingPage =()=>{
            <SocialMediaIcons/>
             <View style={{alignSelf:'center', marginTop:H(5)}}>
                 <Button txt={'SIGNUP'} />
-                <View style={{height:H(6), width:W(75), borderRadius:H(5), justifyContent:'center', alignItems:'center', borderColor:'orange', borderWidth:H(0.2), marginTop:H(2)}}><Text style={{color:'orange'}} >LOGIN</Text></View>
+                <View style={{height:H(6), width:W(75), borderRadius:H(5), justifyContent:'center', alignItems:'center', borderColor:'#FFD497', borderWidth:H(0.2), marginTop:H(2)}}><Text style={{color:'#FFD497'}} >LOGIN</Text></View>
             </View>
             <View style={{width:W(70), alignSelf:'center', marginTop:H(4)}}>
                 <Text style={{color:'white', fontSize:H(1.6), alignSelf:'center'}}>By Creating an account , you agree to our </Text>

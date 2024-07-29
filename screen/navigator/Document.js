@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { FlatList, View, Text, TouchableOpacity, Image } from "react-native";
 import { BackgroundClr, H, W } from "../constant/Common";
+import Icon from 'react-native-vector-icons/Feather';
+
 
 const Document = () => {
     const [data, setData] = useState([
@@ -12,19 +14,17 @@ const Document = () => {
     ]);
 
     const [show, setShow] = useState([
-        { title: 'Label Aggrement 2024-2025', image: require('../assests/fblogo.jpg') },
-        { title: 'Label Aggrement 2024-2025', image: require('../assests/fblogo.jpg') },
-        { title: 'Label Aggrement 2024-2025', image: require('../assests/fblogo.jpg') },
-        { title: 'Label Aggrement 2024-2025', image: require('../assests/fblogo.jpg') },
-        { title: 'Label Aggrement 2024-2025', image: require('../assests/fblogo.jpg') },
-        { title: 'Label Aggrement 2024-2025', image: require('../assests/fblogo.jpg') },
-        { title: 'Label Aggrement 2024-2025', image: require('../assests/fblogo.jpg') },
-        { title: 'Label Aggrement 2024-2025', image: require('../assests/fblogo.jpg') },
-        { title: 'Label Aggrement 2024-2025', image: require('../assests/fblogo.jpg') },
-        { title: 'Label Aggrement 2024-2025', image: require('../assests/fblogo.jpg') },
-        { title: 'Label Aggrement 2024-2025', image: require('../assests/fblogo.jpg') },
+        { title: 'Label Aggrement 2024-2025', image: require('../assests/Ellipse.png'), },     
+        { title: 'Label Aggrement 2024-2025', image: require('../assests/Ellipse1.png') },     
+        { title: 'Label Aggrement 2024-2025', image: require('../assests/Ellipse2.png') },     
+        { title: 'Label Aggrement 2024-2025', image: require('../assests/Ellipse.png') }, 
+        { title: 'Label Aggrement 2024-2025', image: require('../assests/Ellipse1.png') },  
+        { title: 'Label Aggrement 2024-2025', image: require('../assests/Ellipse2.png') },     
 
-     
+           
+
+
+
     ]);
 
     const [selectedIndex, setSelectedIndex] = useState(null);
@@ -39,11 +39,11 @@ const Document = () => {
                     padding: 12,
                     borderBottomWidth: 1,
                     borderRadius: isSelected ? 20 : 0, // Circle around the selected item
-                    backgroundColor: isSelected ? 'orange' : 'transparent', // Circle color
+                    backgroundColor: isSelected ? '#FFD497' : 'transparent', // Circle color
                     borderWidth: isSelected ? 2 : 0 // Circle border width
                 }}
             >
-                <Text style={{ color: isSelected ? 'black' : 'orange' }}> {item.title} </Text>
+                <Text style={{ color: isSelected ? 'black' : '#FFD497' }}> {item.title} </Text>
 
             </TouchableOpacity>
         );
@@ -55,9 +55,12 @@ const Document = () => {
                 flexDirection: 'row',
                 alignItems: 'center',
                 padding: 10,
-                backgroundColor: '#1e1e1e',
+                backgroundColor: '#0D0D0D',
                 borderRadius: 10,
-                marginBottom: 10
+                marginBottom: 10,
+                width:W(95),
+                alignSelf:"center",
+                height:H(12)
             }}>
                 <Image
                     source={item.image}
@@ -82,17 +85,16 @@ const Document = () => {
                             flexDirection: 'row',
                             alignItems: 'center',
                             backgroundColor: '#5c3b21',
-                            borderRadius: 5,
+                            borderRadius: 10,
                             paddingVertical: 2,
                             paddingHorizontal: 8,
                             marginRight: 5,
                         }}>
+                            <Icon name="edit" size={12} color="#FFFFFF" />
                             <Text style={{
-                                color: '#ffffff',
+                                color: '#FFFFFF',
                                 fontSize: 12,
-                            }}>
-                                Draft
-                            </Text>
+                            }}> Draft</Text>
                         </View>
                         <View style={{
                             flexDirection: 'row',
@@ -102,12 +104,11 @@ const Document = () => {
                             paddingVertical: 2,
                             paddingHorizontal: 8,
                         }}>
+                            <Icon name="calendar" size={12} color="#FFFFFF" />
                             <Text style={{
                                 color: '#ffffff',
                                 fontSize: 12,
-                            }}>
-                                28/8/2024
-                            </Text>
+                            }}> 28/8/2024</Text>
                         </View>
                     </View>
                 </View>

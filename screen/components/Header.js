@@ -15,8 +15,8 @@ const Header = (props) => {
                 alignItems: 'center',
             }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Icon name="arrowleft" size={20} color="orange" />
-                    <Text style={{ color: 'orange' }}>Back</Text>
+                    <Icon name="arrowleft" size={20} color="#FFD497" />
+                    <Text style={{ color: '#FFD497' }}>Back</Text>
                 </View>
 
                 {
@@ -26,7 +26,7 @@ const Header = (props) => {
                     <View style={{
                         height: H(4.5),
                         width: W(28),
-                        backgroundColor: 'orange',
+                        backgroundColor: '#FFD497',
                         borderRadius: H(1.5),
                         justifyContent: 'center',
                         alignItems: 'center',

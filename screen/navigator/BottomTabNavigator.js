@@ -26,7 +26,7 @@ const BottomTabNavigator = () => {
 
           return <Icon name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: 'orange',
+        tabBarActiveTintColor: '#FFD497',
         tabBarInactiveTintColor: 'gray',
         tabBarStyle: { 
           backgroundColor: 'black', // Set tab bar color to black

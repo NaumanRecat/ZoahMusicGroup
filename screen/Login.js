@@ -32,14 +32,14 @@ const Login = () => {
                 marginTop:H(2.5),
                 marginBottom:H(2.5)
             }}>
-            <Text style={{color:'orange', }}>Forget Password</Text>
+            <Text style={{color:'#FFD497', }}>Forget Password</Text>
             </View>
 
             <Button alignSelf='center' txt='LOGIN' />
 
             <View style={{flexDirection:'row', marginTop:H(5), alignItems:'center', justifyContent:'center'}}>
             <Text style={{color:'white'}}>Don't have an account?</Text>
-            <Text style={{color:'orange'}}>  Sign up</Text>
+            <Text style={{color:'#FFD497'}}>  Sign up</Text>
             
             </View>
             
