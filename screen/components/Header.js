@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, Text } from "react-native";
+import { View, Image, Text, TouchableOpacity } from "react-native";
 import { H, W } from '../constant/Common';
 import Icon from 'react-native-vector-icons/AntDesign';
 
@@ -14,14 +14,13 @@ const Header = (props) => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
             }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <TouchableOpacity onPress={props.onBackPress} style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Icon name="arrowleft" size={20} color="#FFD497" />
                     <Text style={{ color: '#FFD497' }}>Back</Text>
-                </View>
+                </TouchableOpacity>
 
                 {
                     props?.icon ? 
-
                     <View>
                     <View style={{
                         height: H(4.5),

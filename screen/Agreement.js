@@ -5,7 +5,7 @@ import Header from "./components/Header";
 import Icon from 'react-native-vector-icons/Entypo';
 import Icon1 from 'react-native-vector-icons/Ionicons';
 
-const Aggrement = () => {
+const Aggrement = (props) => {
     const [disable, setDisable] = useState(true)
     return (
         <View style={{ flex: 1, backgroundColor: BackgroundClr }}>
@@ -81,7 +81,7 @@ const Aggrement = () => {
                         }
 
 
-                        <TouchableOpacity style={{
+                        <TouchableOpacity onPress={()=>props.navigation.navigate('Aggrementfnf')} style={{
                             backgroundColor: '#FFD497',
                             borderRadius: H(2.5),
                             height: H(5),

@@ -6,10 +6,10 @@ import SocialMediaIcons from "./components/SocialMediaIcons";
 import Input from "./components/Input";
 import Button from "./components/Button";
 
-const Login = () => {
+const Login = (props) => {
     return (
         <View style={{ flex: 1, backgroundColor: BackgroundClr }}>
-            <Header/>
+            <Header  onBackPress={() => props.navigation.navigate('LandingPage')} />
 
             <View style={{ height: H(15), marginTop: H(5), alignSelf: 'center', marginRight: W(3) }}>
                 <Text style={{ fontSize: H(4), color: 'red', marginLeft: W(3) }} >Welcome Back</Text>

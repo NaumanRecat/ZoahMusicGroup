@@ -4,12 +4,14 @@ import { BackgroundClr, H, W } from '../constant/Common';
 import Header from '../components/Header';
 import Icon from 'react-native-vector-icons/Entypo';
 import Icon1 from 'react-native-vector-icons/Ionicons';
+import Aggrement from "../Agreement";
+Aggrement
 
-const Aggrementfnf = () => {
+const Aggrementfnf = (props) => {
     const [disable, setDisable] = useState(false)
     return (
         <View style={{ flex: 1, backgroundColor: BackgroundClr }}>
-            <Header icon />
+            <Header  onBackPress={() => props.navigation.navigate('Aggrement')} icon />
             <Text style={{ fontSize: H(2.8), color: 'red', marginLeft: W(3), marginTop: H(4) }} >MUSICIAN AGREEMENT</Text>
 
             <ScrollView style={{ marginRight: W(3), padding: 5 }}>
@@ -111,7 +113,7 @@ const Aggrementfnf = () => {
                                 marginHorizontal: 10,
                             }}>
                                 <Icon name="arrow-bold-left" size={15} color="black" />
-                            </TouchableOpacity> : <TouchableOpacity style={{
+                            </TouchableOpacity> : <TouchableOpacity onPress={()=>props.navigation.navigate('Aggrement')} style={{
                                 backgroundColor: '#FFD497',
                                 borderRadius: H(2.5),
                                 height: H(5),
@@ -138,7 +140,7 @@ const Aggrementfnf = () => {
 
 
                     <View>
-                        <TouchableOpacity style={{
+                        <TouchableOpacity onPress={()=>props.navigation.navigate('LandingPage')} style={{
                             backgroundColor: '#FFD497',
                             borderRadius: 50,
                             paddingVertical: 10,
