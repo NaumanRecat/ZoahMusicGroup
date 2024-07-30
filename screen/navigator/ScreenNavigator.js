@@ -5,6 +5,8 @@ import LandingPage from '../LandingPage';
 import Login from '../Login';
 import BottomTabNavigator from './BottomTabNavigator';
 import Aggrement from '../Agreement';
+import Aggrementfnf from './Agreementfnf';
+
 
 
 
@@ -13,7 +15,8 @@ const Stack = createNativeStackNavigator();
 const ScreenNavigator =()=>{
   return(
     <NavigationContainer>
-        <Stack.Navigator initialRouteName="Aggrement">
+        <Stack.Navigator initialRouteName="Aggrementfnf">
+        <Stack.Screen name="Aggrementfnf" component={Aggrementfnf} options={{headerShown:false}}/> 
         <Stack.Screen name="Aggrement" component={Aggrement} options={{headerShown:false}}/> 
         <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} options={{headerShown:false}}/> 
         <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/> 
