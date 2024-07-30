@@ -5,6 +5,8 @@ import Header from "./components/Header";
 import SocialMediaIcons from "./components/SocialMediaIcons";
 import Input from "./components/Input";
 import Button from "./components/Button";
+import Document from "./navigator/Document";
+
 
 const Login = (props) => {
     return (
@@ -35,7 +37,7 @@ const Login = (props) => {
             <Text style={{color:'#FFD497', }}>Forget Password</Text>
             </View>
 
-            <Button alignSelf='center' txt='LOGIN' />
+            <Button onPressButton={()=>{props.navigation.navigate('Document')}} alignSelf='center' txt='LOGIN' />
 
             <View style={{flexDirection:'row', marginTop:H(5), alignItems:'center', justifyContent:'center'}}>
             <Text style={{color:'white'}}>Don't have an account?</Text>

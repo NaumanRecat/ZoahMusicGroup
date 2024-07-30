@@ -4,7 +4,7 @@ import { BackgroundClr, H, W } from "../constant/Common";
 import Icon from 'react-native-vector-icons/Feather';
 
 
-const Document = () => {
+const Document = (props) => {
     const [data, setData] = useState([
         { title: 'All' },
         { title: 'Pending' },
@@ -51,7 +51,7 @@ const Document = () => {
 
     const renderItemshow = ({ item }) => {
         return (
-            <View style={{
+            <TouchableOpacity onPress={()=>props.navigation.navigate('Aggrement')}  style={{
                 flexDirection: 'row',
                 alignItems: 'center',
                 padding: 10,
@@ -112,7 +112,7 @@ const Document = () => {
                         </View>
                     </View>
                 </View>
-            </View>
+            </TouchableOpacity>
         );
     };
 

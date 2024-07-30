@@ -9,7 +9,7 @@ const Aggrement = (props) => {
     const [disable, setDisable] = useState(true)
     return (
         <View style={{ flex: 1, backgroundColor: BackgroundClr }}>
-            <Header icon />
+              <Header  onBackPress={() => props.navigation.navigate('BottomTabNavigator')} icon />
             <Text style={{ fontSize: H(2.8), color: 'red', marginLeft: W(3), marginTop: H(4) }} >MUSICIAN AGREEMENT</Text>
 
             <ScrollView style={{ marginRight: W(3), padding: 5 }}>
