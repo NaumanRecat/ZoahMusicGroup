@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, Text } from "react-native";
+import { View, Image, Text, TouchableOpacity } from "react-native";
 import { H, W, BackgroundClr } from './constant/Common'
 import Header from "./components/Header";
 import SocialMediaIcons from "./components/SocialMediaIcons";
@@ -37,11 +37,11 @@ const Login = (props) => {
             <Text style={{color:'#FFD497', }}>Forget Password</Text>
             </View>
 
-            <Button onPressButton={()=>{props.navigation.navigate('Document')}} alignSelf='center' txt='LOGIN' />
+            <Button onPressButton={()=>{props.navigation.navigate('BottomTabNavigator')}} alignSelf='center' txt='LOGIN' />
 
             <View style={{flexDirection:'row', marginTop:H(5), alignItems:'center', justifyContent:'center'}}>
             <Text style={{color:'white'}}>Don't have an account?</Text>
-            <Text style={{color:'#FFD497'}}>  Sign up</Text>
+            <TouchableOpacity onPress={()=>props.navigation.navigate('Signup')} ><Text style={{color:'#FFD497'}}>  Sign up</Text></TouchableOpacity>
             
             </View>
             

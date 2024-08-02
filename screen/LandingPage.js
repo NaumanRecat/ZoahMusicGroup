@@ -12,9 +12,9 @@ const LandingPage =(props)=>{
             <View style={{height:H(38), marginTop:H(5)}}>
                 <Image source={require('./assests/logo.png')} style={{resizeMode:'contain', height:H(40), width:W(60), alignSelf:'center'}} />
             </View>
-           <SocialMediaIcons/>
+           <SocialMediaIcons style={{marTop:H(10)}} />
             <View style={{alignSelf:'center', marginTop:H(5)}}>
-                <Button onPressButton={()=>props.navigation.navigate('Login')} txt={'SIGNUP'} />
+                <Button onPressButton={()=>props.navigation.navigate('Signup')} txt={'SIGNUP'} />
                 <TouchableOpacity onPress={()=>props.navigation.navigate('Login')}  style={{height:H(6), width:W(75), borderRadius:H(5), justifyContent:'center', alignItems:'center', borderColor:'#FFD497', borderWidth:H(0.2), marginTop:H(2)}}><Text style={{color:'#FFD497'}} >LOGIN</Text></TouchableOpacity>
             </View>
             <View style={{width:W(70), alignSelf:'center', marginTop:H(4)}}>

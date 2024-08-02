@@ -7,6 +7,7 @@ import BottomTabNavigator from './BottomTabNavigator';
 import Aggrement from '../Agreement';
 import Aggrementfnf from './Agreementfnf';
 import Document from './Document';
+import Signup from '../Signup';
 
 
 
@@ -23,6 +24,7 @@ const ScreenNavigator =()=>{
         <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/> 
         <Stack.Screen name="LandingPage" component={LandingPage} options={{headerShown:false}}/> 
         <Stack.Screen name="Document" component={Document} options={{headerShown:false}}/> 
+        <Stack.Screen name="Signup" component={Signup} options={{headerShown:false}}/> 
         </Stack.Navigator>
     </NavigationContainer>
   )
