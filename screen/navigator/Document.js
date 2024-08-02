@@ -5,17 +5,20 @@ import Icon from 'react-native-vector-icons/Feather';
 
 const Document = (props) => {
     const [data, setData] = useState([
-        { title: 'All' },
-        { title: 'Pending' },
-        { title: 'Draft' },
-        { title: 'Decline' },
-        { title: 'Done' }
+        { title: 'All', status: 'All' },
+        { title: 'Pending', status: 'Pending' },
+        { title: 'Draft', status: 'Draft' },
+        { title: 'Declined', status: 'Decline' },
+        { title: 'Done', status: 'Done' }
     ]);
 
     const [show, setShow] = useState([
         { title: 'Label Agreement 2024-2025', image: require('../assests/Ellipse.png'), status: 'Draft' },
         { title: 'Label Agreement 2024-2025', image: require('../assests/Ellipse1.png'), status: 'Pending' },
         { title: 'Label Agreement 2024-2025', image: require('../assests/Ellipse2.png'), status: 'Decline' },
+        { title: 'Label Agreement 2024-2025', image: require('../assests/Ellipse.png'), status: 'Done' },
+        { title: 'Label Agreement 2024-2025', image: require('../assests/Ellipse1.png'), status: 'Draft' },
+        { title: 'Label Agreement 2024-2025', image: require('../assests/Ellipse2.png'), status: 'Done' },
         { title: 'Label Agreement 2024-2025', image: require('../assests/Ellipse.png'), status: 'Done' },
         { title: 'Label Agreement 2024-2025', image: require('../assests/Ellipse1.png'), status: 'Draft' },
         { title: 'Label Agreement 2024-2025', image: require('../assests/Ellipse2.png'), status: 'Done' },
@@ -38,21 +41,49 @@ const Document = (props) => {
         }
     };
 
+    const getItemCount = (status) => {
+        if (status === 'All') {
+            return show.length;
+        }
+        return show.filter(item => item.status === status).length;
+    };
+
     const renderItem = ({ item }) => {
-        const isSelected = selectedStatus === item.title;
+        const isSelected = selectedStatus === item.status;
+        const itemCount = getItemCount(item.status);
+
         return (
             <TouchableOpacity 
-                onPress={() => setSelectedStatus(item.title)} // Set the selected status
+                onPress={() => setSelectedStatus(item.status)} // Set the selected status
                 style={{
-                    marginLeft: W(1),
-                    padding: 12,
-                    borderBottomWidth: 1,
-                    borderRadius: isSelected ? 20 : 0, 
-                    backgroundColor: isSelected ? '#FFD497' : 'transparent',
-                    borderWidth: isSelected ? 2 : 0 
+                    marginLeft: W(2),
+                    padding: 10,
+                    backgroundColor: isSelected ? '#FFD497' : '#1c1c1c', 
+                    borderRadius: 20,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginTop:H(1)
                 }}
             >
-                <Text style={{ color: isSelected ? 'black' : '#FFD497' }}>{item.title}</Text>
+                {/* Number Badge */}
+                <View style={{
+                    position: 'absolute',
+                    top: -8,
+                    right: -8,
+                    backgroundColor: isSelected ? '#FFD497' : '#3a3a3a', 
+                    borderRadius: 10,
+                    paddingHorizontal: 6,
+                    paddingVertical: 2,
+                    zIndex: 1,
+                }}>
+                    <Text style={{ color: '#000', fontSize: 10, fontWeight: 'bold' }}>
+                        {itemCount}
+                    </Text>
+                </View>
+
+                <Text style={{ color: isSelected ? '#000' : '#FFD497', fontSize: 16, fontWeight: 'bold' }}>
+                    {item.title}
+                </Text>
             </TouchableOpacity>
         );
     };
@@ -142,6 +173,7 @@ const Document = (props) => {
                     renderItem={renderItem}
                     keyExtractor={(item, index) => index.toString()}
                     horizontal={true}
+                    showsHorizontalScrollIndicator={false}
                 />
            </View>
 
