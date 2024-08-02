@@ -9,6 +9,7 @@ import Button from "./components/Button";
 const Signup = (props) => {
     return (
         <View style={{ flex: 1, backgroundColor: BackgroundClr }}>
+
             <Header onBackPress={() => props.navigation.navigate('LandingPage')} />
 
             <View style={{ height: H(5), alignSelf: 'center', marginRight: W(3) }}>
@@ -19,16 +20,18 @@ const Signup = (props) => {
             <SocialMediaIcons />
 
             <Text style={{ color: 'white', marginLeft: W(10), marginBottom: H(1), marginTop: H(3) }}>Full Name</Text>
-            <Input />
+            <Input placeholdertxt="Enter your Full name" />
 
             <Text style={{ color: 'white', marginLeft: W(10), marginBottom: H(1), marginTop: H(2) }}>Email</Text>
-            <Input />
+            <Input placeholdertxt="Enter your email" />
 
             <Text style={{ color: 'white', marginLeft: W(10), marginBottom: H(1), marginTop: H(2) }}>Password</Text>
-            <Input />
+            <Input placeholdertxt="Enter your password" />
+
 
             <Text style={{ color: 'white', marginLeft: W(10), marginBottom: H(1), marginTop: H(2) }}>Confirm Password</Text>
-            <Input />
+            <Input placeholdertxt="Confirm your password" />
+
 
             <View style={{marginTop:H(2)}}>
             <Button onPressButton={() => { props.navigation.navigate('BottomTabNavigator') }} alignSelf='center' txt='SIGN UP' />
