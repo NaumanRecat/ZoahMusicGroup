@@ -1,40 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native';
 import { BackgroundClr, H } from '../constant/Common';
 
 const Profile = (props) => {
+    const [profile, setProfile]=useState('Tyler Mason')
+    const [email, setEmail]=useState('tylermason309@gmail.com')
     const menuItems = [
-        { title: 'Personal information', onPress: () => alert('Personal information') },
-        { title: 'Notifications', onPress: () => alert('Notifications') },
-        { title: 'Time spent', onPress: () => alert('Time spent') },
-        { title: 'Following', onPress: () => alert('Following') },
-        { title: 'Privacy policy', onPress: () => alert('Privacy policy') },
-        { title: 'Terms & Conditions', onPress: () => alert('Terms & Conditions') },
-        { title: 'FAQ & Help', onPress: () => alert('FAQ & Help') },
+        { title: 'Edit Profile', onPress: () => alert('Edit Profile') },
+        { title: 'LogOut', onPress: () => props.navigation.navigate('Login') },
     ];
 
     return (
         <View style={{ flex: 1, backgroundColor: BackgroundClr }}>
             <View style={{ alignItems: 'center', marginVertical: 20 }}>
-                <Image
-                    source={{ uri: 'https://your-image-url.com' }} // Replace with user's profile picture URL
+                <Image source={require('../assests/profiledummy.png')}
                     style={{ width: 80, height: 80, borderRadius: 40, borderColor:'#FFD497', borderWidth:H(0.2), marginTop:H(3)}}
                 />
-                <TouchableOpacity
-                    style={{
-                        position: 'absolute',
-                        top: 60,
-                        right: 135,
-                        backgroundColor: '#FFF',
-                        borderRadius: 15,
-                        padding: 5,
-                    }}
-                    onPress={() => alert('Edit Profile Picture')}
-                >
-                    <Text>✏️</Text>
-                </TouchableOpacity>
-                <Text style={{ fontSize: 18, fontWeight: 'bold', marginTop: 10, color: 'white' }}>Tyler Mason</Text>
-                <Text style={{ fontSize: 14, color: 'white', marginBottom: 10 }}>tylermason309@gmail.com</Text>
+
+                <Text style={{ fontSize: 18, fontWeight: 'bold', marginTop: 10, color: 'white' }}> {profile} </Text>
+                <Text style={{ fontSize: 14, color: 'white', marginBottom: 10 }}>{email}</Text>
             </View>
 
             <FlatList
