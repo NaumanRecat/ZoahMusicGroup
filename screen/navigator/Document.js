@@ -8,7 +8,7 @@ const Document = (props) => {
         { title: 'All' },
         { title: 'Pending' },
         { title: 'Draft' },
-        { title: 'Declined' },
+        { title: 'Decline' },
         { title: 'Done' }
     ]);
 
@@ -21,7 +21,7 @@ const Document = (props) => {
         { title: 'Label Agreement 2024-2025', image: require('../assests/Ellipse2.png'), status: 'Done' },
     ]);
 
-    const [selectedIndex, setSelectedIndex] = useState(null);
+    const [selectedStatus, setSelectedStatus] = useState('All'); // Default selected status is 'All'
 
     const getStatusColor = (status) => {
         switch (status) {
@@ -38,11 +38,11 @@ const Document = (props) => {
         }
     };
 
-    const renderItem = ({ item, index }) => {
-        const isSelected = selectedIndex === index;
+    const renderItem = ({ item }) => {
+        const isSelected = selectedStatus === item.title;
         return (
             <TouchableOpacity 
-                onPress={() => setSelectedIndex(index)}
+                onPress={() => setSelectedStatus(item.title)} // Set the selected status
                 style={{
                     marginLeft: W(1),
                     padding: 12,
@@ -97,7 +97,7 @@ const Document = (props) => {
                         <View style={{
                             flexDirection: 'row',
                             alignItems: 'center',
-                            backgroundColor: statusColor, // Dynamic status color
+                            backgroundColor: statusColor, 
                             borderRadius: 10,
                             paddingVertical: 2,
                             paddingHorizontal: 8,
@@ -129,6 +129,10 @@ const Document = (props) => {
         );
     };
 
+    const filteredData = selectedStatus === 'All' 
+        ? show 
+        : show.filter(item => item.status === selectedStatus); // Filter data based on selected status
+
     return (
         <View style={{ flex: 1, backgroundColor: BackgroundClr }}>
 
@@ -143,7 +147,7 @@ const Document = (props) => {
 
            <View style={{ height: H(100), marginTop: H(1) }}>
                <FlatList
-                    data={show}
+                    data={filteredData} // Display filtered data
                     renderItem={renderItemshow}
                     keyExtractor={(item, index) => index.toString()}
                 />
