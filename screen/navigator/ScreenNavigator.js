@@ -7,7 +7,9 @@ import BottomTabNavigator from './BottomTabNavigator';
 import Aggrement from '../Agreement';
 import Document from './Document';
 import Signup from '../Signup';
-import AgreementNew from '../AgreementNew'; 
+import AgreementNew from '../AgreementNew';
+import AgreementNewLetter from '../AgreementNewLetter';
+
 
 
 
@@ -17,7 +19,8 @@ const Stack = createNativeStackNavigator();
 const ScreenNavigator =()=>{
   return(
     <NavigationContainer>
-        <Stack.Navigator initialRouteName="AgreementNew">
+        <Stack.Navigator initialRouteName="AgreementNewLetter">
+        <Stack.Screen name="AgreementNewLetter" component={AgreementNewLetter} options={{headerShown:false}}/> 
         <Stack.Screen name="AgreementNew" component={AgreementNew} options={{headerShown:false}}/> 
         <Stack.Screen name="Aggrement" component={Aggrement} options={{headerShown:false}}/> 
         <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} options={{headerShown:false}}/> 
