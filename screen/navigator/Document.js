@@ -93,7 +93,7 @@ const Document = (props) => {
 
         return (
             <TouchableOpacity 
-                onPress={() => props.navigation.navigate('Aggrement')}  
+                onPress={() => props.navigation.navigate('AgreementNew')}  
                 style={{
                     flexDirection: 'row',
                     alignItems: 'center',

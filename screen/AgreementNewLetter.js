@@ -12,12 +12,14 @@ const AgreementNewLetter = (props) => {
     const [open, setOpen] = useState(false);
     return (
         <View style={{ flex: 1, backgroundColor: BackgroundClr }}>
+
             <Header onBackPress={() => props.navigation.navigate('BottomTabNavigator')} icon />
-            <Text style={{ fontSize: H(2.8), color: 'red', marginLeft: W(3), marginTop: H(4) }} >Letter of Direction</Text>
+
+            <View style={{alignItems:'center'}}><Text style={{ fontSize: H(2.8), color: 'red', marginLeft: W(3), marginTop: H(4)}} >Letter of Direction</Text></View>
 
             <ScrollView style={{ marginRight: W(3), padding: 5 }}>
 
-                <View style={{ height: H(5), flexDirection: 'row', alignSelf: 'center', marginTop: H(2) }}>
+                <View style={{ height: H(5), flexDirection: 'row', alignSelf: 'center', marginTop: H(5) }}>
                     <Text style={{ fontWeight: 'bold', color: 'rgba(255, 255, 255, 1)' }}>As of</Text>
                     <TextInput
                         style={{
@@ -25,14 +27,14 @@ const AgreementNewLetter = (props) => {
                             borderColor: 'grey',
                             height: 10,
                             marginLeft: 10,
-                            width: W(40),
+                            width: W(55),
                             color: 'rgba(255, 255, 255, 1)', // Set text color to 100% white
                         }}
                     />
                 </View>
 
-                <View style={{alignSelf:'center'}} >
-                    <Text style={{color:'white', marginBottom:H(1), padding:H(0.5)}}>TO: MG, Warner Music, Sony Records, MRI, HFA, Spotify, Apple Music, Amazon,</Text> 
+                <View style={{alignSelf:'center', paddingLeft:W(10),paddingRight:W(5)}} >
+                    <Text style={{color:'white', marginBottom:H(1), padding:H(0.5)}}>TO:{' '}MG, Warner Music, Sony Records, MRI, HFA, Spotify, Apple Music, Amazon,</Text> 
                     <Text style={{color:'white', marginBottom:H(1), padding:H(0.5)}}>You Tube, You Tube Music, and all others requiring a license to Reproduce,</Text>
                     <Text style={{color:'white', marginBottom:H(1), padding:H(0.5)}}>Distribute, Publicly Perform, Digitally Transmit,Publicly Display any/or</Text>
                     <Text style={{color:'white', marginBottom:H(1), padding:H(0.5)}}>create Derivatives as defined 17 U.S.C. 106–Exclusive Rights in Copyrighted</Text>
@@ -40,7 +42,7 @@ const AgreementNewLetter = (props) => {
                     <Text style={{color:'white', marginBottom:H(1), padding:H(0.5)}}>controlled Musical Compositions</Text>
                 </View>
 
-                <Text style={{color:'white', marginBottom:H(1), padding:H(0.5), marginLeft:W(3)}}>RE: Letter of Direction</Text>
+                <Text style={{color:'white', marginBottom:H(1), padding:H(0.5), marginLeft:W(3), marginTop:H(4)}}>RE: Letter of Direction</Text>
                 <Text style={{color:'white', marginBottom:H(1), padding:H(0.5), marginLeft:W(3)}}>To Whom It May Concern:</Text>
 
                 <View style={{ padding: H(0.7) }}>
@@ -119,7 +121,7 @@ const AgreementNewLetter = (props) => {
                 </View>
 
                 <View style={{ height: H(5), flexDirection: 'row', marginTop: H(1), marginLeft: W(5) }}>
-                    <Text style={{ fontWeight: 'bold', color: 'rgba(255, 255, 255, 1)' }}>By</Text>
+                    <Text style={{ fontWeight: 'bold', color: 'rgba(255, 255, 255, 1)' }}>Date</Text>
                     <TextInput
                         style={{
                             borderBottomWidth: H(0.2),
@@ -178,7 +180,7 @@ const AgreementNewLetter = (props) => {
 
 
                     <View>
-                        <TouchableOpacity style={{
+                        <TouchableOpacity onPress={()=>props.navigation.navigate('LandingPage')} style={{
                             backgroundColor: '#FFD497',
                             borderRadius: 50,
                             paddingVertical: 10,

@@ -159,7 +159,7 @@ const AgreementNew = (props) => {
                         }
 
 
-                        <TouchableOpacity style={{
+                        <TouchableOpacity onPress={()=>props.navigation.navigate('AgreementNewLetter')} style={{
                             backgroundColor: '#FFD497',
                             borderRadius: H(2.5),
                             height: H(5),

@@ -19,7 +19,7 @@ const Stack = createNativeStackNavigator();
 const ScreenNavigator =()=>{
   return(
     <NavigationContainer>
-        <Stack.Navigator initialRouteName="AgreementNewLetter">
+        <Stack.Navigator initialRouteName="LandingPage">
         <Stack.Screen name="AgreementNewLetter" component={AgreementNewLetter} options={{headerShown:false}}/> 
         <Stack.Screen name="AgreementNew" component={AgreementNew} options={{headerShown:false}}/> 
         <Stack.Screen name="Aggrement" component={Aggrement} options={{headerShown:false}}/> 
