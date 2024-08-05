@@ -1,16 +1,15 @@
 import React from "react";
-import { View, Image, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { H, W, BackgroundClr } from './constant/Common'
 import Header from "./components/Header";
 import SocialMediaIcons from "./components/SocialMediaIcons";
 import Input from "./components/Input";
 import Button from "./components/Button";
-import Document from "./navigator/Document";
 
 
 const Login = (props) => {
     return (
-        <View style={{ flex: 1, backgroundColor: BackgroundClr }}>
+        <ScrollView style={{ flex: 1, backgroundColor: BackgroundClr }}>
 
             <Header onBackPress={() => props.navigation.navigate('LandingPage')} />
 
@@ -26,7 +25,7 @@ const Login = (props) => {
             <Input placeholdertxt="Valid email addres" />
 
             <Text style={{ color: 'white', marginLeft: W(10), marginBottom: H(1), marginTop: H(2) }}>Password</Text>
-            <Input placeholdertxt="Use a strong password" />
+            <Input placeholdertxt="Use a strong password" secureTextEntry={true} />
 
             <View style={{
                 alignItems: 'flex-end',
@@ -46,7 +45,7 @@ const Login = (props) => {
             </View>
 
 
-        </View>
+        </ScrollView>
     )
 }
 export default Login
