@@ -13,7 +13,7 @@ const Document = (props) => {
     ]);
 
     const [show, setShow] = useState([
-        { title: 'Musician Agreement', image: require('../assests/Ellipse1.png') },
+        { title: 'Administrative Publishing Agreement', image: require('../assests/Ellipse1.png') },
         { title: 'Letter of Direction', image: require('../assests/Ellipse1.png') }
     ]);
 
@@ -88,7 +88,7 @@ const Document = (props) => {
         return (
             <TouchableOpacity 
                 onPress={() => {
-                   if(item?.title === 'Musician Agreement'){
+                   if(item?.title === 'Administrative Publishing Agreement'){
                         props.navigation.navigate('AgreementNew');
                    } else {
                         props.navigation.navigate('AgreementNewLetter');
@@ -118,7 +118,7 @@ const Document = (props) => {
                 <View style={{ flex: 1 }}>
                     <Text style={{
                         color: '#ffffff',
-                        fontSize: 16,
+                        fontSize: 15,
                         fontWeight: 'bold',
                         marginBottom: 5,
                     }}>
