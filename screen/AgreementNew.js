@@ -15,7 +15,7 @@ const AgreementNew = (props) => {
             <Header onBackPress={() => props.navigation.navigate('BottomTabNavigator')} icon />
             <Text style={{ fontSize: H(2.8), color: 'red', marginLeft: W(3), marginTop: H(4) }} >MUSICIAN AGREEMENT</Text>
 
-            <ScrollView style={{ marginRight: W(3), padding: 5 }}>
+            <ScrollView style={{ marginRight: W(3), padding: 5 }} showsVerticalScrollIndicator={false}>
 
                 <Text style={{ fontSize: H(2), marginLeft: W(3), marginTop: H(2) }}>
                     <Text style={{ fontWeight: 'bold', color: 'rgba(255, 255, 255, 1)' }}>ADMINISTRATION AGREEMENT</Text>

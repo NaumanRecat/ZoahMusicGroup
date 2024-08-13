@@ -34,7 +34,7 @@ const Signup = (props) => {
 
 
             <View style={{marginTop:H(2)}}>
-            <Button onPressButton={() => { props.navigation.navigate('BottomTabNavigator') }} alignSelf='center' txt='SIGN UP' />
+            <Button onPressButton={() => { props.navigation.navigate('BottomTabNavigator',{screen:'Document'}) }} alignSelf='center' txt='SIGN UP' />
             </View>
         
 

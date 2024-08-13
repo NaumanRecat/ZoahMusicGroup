@@ -17,7 +17,7 @@ const AgreementNewLetter = (props) => {
 
             <View style={{alignItems:'center'}}><Text style={{ fontSize: H(2.8), color: 'red', marginLeft: W(3), marginTop: H(4)}} >Letter of Direction</Text></View>
 
-            <ScrollView style={{ marginRight: W(3), padding: 5 }}>
+            <ScrollView style={{ marginRight: W(3), padding: 5 }} showsVerticalScrollIndicator={false}>
 
                 <View style={{ height: H(5), flexDirection: 'row', alignSelf: 'center', marginTop: H(5) }}>
                     <Text style={{ fontWeight: 'bold', color: 'rgba(255, 255, 255, 1)' }}>As of</Text>

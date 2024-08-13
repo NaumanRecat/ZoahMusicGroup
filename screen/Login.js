@@ -37,7 +37,7 @@ const Login = (props) => {
                 <Text style={{ color: '#FFD497', }}>Forget Password</Text>
             </View>
 
-            <Button onPressButton={() => { props.navigation.navigate('BottomTabNavigator') }} alignSelf='center' txt='LOGIN' />
+            <Button onPressButton={() => { props.navigation.navigate('BottomTabNavigator',{screen:'Document'}) }} alignSelf='center' txt='LOGIN' />
 
             <View style={{ flexDirection: 'row', marginTop: H(5), alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ color: 'white' }}>Don't have an account?</Text>

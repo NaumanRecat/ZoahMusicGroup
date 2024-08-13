@@ -13,15 +13,8 @@ const Document = (props) => {
     ]);
 
     const [show, setShow] = useState([
-        { title: 'Label Agreement 2024-2025', image: require('../assests/Ellipse.png'), status: 'Draft' },
-        { title: 'Label Agreement 2024-2025', image: require('../assests/Ellipse1.png'), status: 'Pending' },
-        { title: 'Label Agreement 2024-2025', image: require('../assests/Ellipse2.png'), status: 'Decline' },
-        { title: 'Label Agreement 2024-2025', image: require('../assests/Ellipse.png'), status: 'Done' },
-        { title: 'Label Agreement 2024-2025', image: require('../assests/Ellipse1.png'), status: 'Draft' },
-        { title: 'Label Agreement 2024-2025', image: require('../assests/Ellipse2.png'), status: 'Done' },
-        { title: 'Label Agreement 2024-2025', image: require('../assests/Ellipse.png'), status: 'Done' },
-        { title: 'Label Agreement 2024-2025', image: require('../assests/Ellipse1.png'), status: 'Draft' },
-        { title: 'Label Agreement 2024-2025', image: require('../assests/Ellipse2.png'), status: 'Done' },
+        { title: 'Musician Agreement', image: require('../assests/Ellipse1.png') },
+        { title: 'Letter of Direction', image: require('../assests/Ellipse1.png') }
     ]);
 
     const [selectedStatus, setSelectedStatus] = useState('All'); // Default selected status is 'All'
@@ -57,15 +50,15 @@ const Document = (props) => {
                 onPress={() => setSelectedStatus(item.status)} // Set the selected status
                 style={{
                     marginLeft: W(2),
-                    padding: 10,
+                    height:H(5),
                     backgroundColor: isSelected ? '#FFD497' : '#1c1c1c', 
                     borderRadius: 20,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    marginTop:H(1)
-                }}
-            >
+                    marginTop:H(1),
+                }}>
                 {/* Number Badge */}
+                {itemCount !== 0 ? (
                 <View style={{
                     position: 'absolute',
                     top: -8,
@@ -80,8 +73,9 @@ const Document = (props) => {
                         {itemCount}
                     </Text>
                 </View>
+                ):null}
 
-                <Text style={{ color: isSelected ? '#000' : '#FFD497', fontSize: 16, fontWeight: 'bold' }}>
+                <Text style={{ color: isSelected ? '#000' : '#FFD497', fontSize: 16, fontWeight: 'bold', paddingLeft:H(2),paddingRight:H(2) }}>
                     {item.title}
                 </Text>
             </TouchableOpacity>
@@ -93,7 +87,13 @@ const Document = (props) => {
 
         return (
             <TouchableOpacity 
-                onPress={() => props.navigation.navigate('AgreementNew')}  
+                onPress={() => {
+                   if(item?.title === 'Musician Agreement'){
+                        props.navigation.navigate('AgreementNew');
+                   } else {
+                        props.navigation.navigate('AgreementNewLetter');
+                   }
+                }}  
                 style={{
                     flexDirection: 'row',
                     alignItems: 'center',
@@ -124,37 +124,6 @@ const Document = (props) => {
                     }}>
                         {item.title}
                     </Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <View style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            backgroundColor: statusColor, 
-                            borderRadius: 10,
-                            paddingVertical: 2,
-                            paddingHorizontal: 8,
-                            marginRight: 5,
-                        }}>
-                            <Icon name="edit" size={12} color="#FFFFFF" />
-                            <Text style={{
-                                color: '#FFFFFF',
-                                fontSize: 12,
-                            }}>{item.status}</Text>
-                        </View>
-                        <View style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            backgroundColor: '#3a3a3a',
-                            borderRadius: 5,
-                            paddingVertical: 2,
-                            paddingHorizontal: 8,
-                        }}>
-                            <Icon name="calendar" size={12} color="#FFFFFF" />
-                            <Text style={{
-                                color: '#ffffff',
-                                fontSize: 12,
-                            }}> 28/8/2024</Text>
-                        </View>
-                    </View>
                 </View>
             </TouchableOpacity>
         );
