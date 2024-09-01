@@ -1,23 +1,81 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, View, Text, TouchableOpacity, Image } from "react-native";
 import { BackgroundClr, H, W } from "../constant/Common";
-import Icon from 'react-native-vector-icons/Feather';
+import AsyncStorage from "@react-native-community/async-storage";
 
 const Document = (props) => {
     const [data, setData] = useState([
         { title: 'All', status: 'All' },
         { title: 'Pending', status: 'Pending' },
-        { title: 'Draft', status: 'Draft' },
-        { title: 'Declined', status: 'Decline' },
         { title: 'Done', status: 'Done' }
     ]);
-
-    const [show, setShow] = useState([
-        { title: 'Administrative Publishing Agreement', image: require('../assests/Ellipse1.png') },
-        { title: 'Letter of Direction', image: require('../assests/Ellipse1.png') }
+    const [showData, setshowData] = useState([
+        { title: 'ADMINISTRATIVE PUBLISHING AGREEMENT', image: require('../assests/Ellipse1.png'), status:'Pending' },
+        { title: 'Letter of Direction', image: require('../assests/Ellipse1.png'), status:'Pending' }
     ]);
+    const [show, setShow] = useState([]);
 
     const [selectedStatus, setSelectedStatus] = useState('All'); // Default selected status is 'All'
+
+    useEffect(() => {
+        getDocuments();
+        const willFocusSubscription = props?.navigation.addListener('focus', () => {
+            getDocuments();
+          });
+          return willFocusSubscription;
+    },[]);
+
+    const getDocuments = () => {
+        AsyncStorage.getItem('UserData', (error, Data) => {
+            if(!error && Data){
+            let getData = JSON.parse(Data);
+            let body = {
+                email:getData?.user?.email,
+            }
+            console.log('request Send',body);
+            fetch('https://zoahmusicbackend.onrender.com/api/getdocuments', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+            })
+            .then(response => response.json())
+            .then(res => {
+                console.log('Doc Response', res);
+                if(res?.length > 0){
+                    res?.map((item,i) => {
+                        console.log("ITEM",item?.title);
+                        showData?.map((res,ind) => {
+                            console.log("RES",res)
+                            if(item?.title === res?.title){
+                                showData[ind].status = 'Done';
+                            }
+                        });
+                    });
+                    console.log("SHOW",showData)
+                    setShow(showData);
+                    // const getTitleSet = (arr) => new Set(arr.map(item => item.title));
+
+                    // const titles1 = getTitleSet(showData);
+                    // const titles2 = getTitleSet(res);
+                    // const uniqueInArray1 = showData.filter(item => !titles2.has(item.title));
+                    // const uniqueInArray2 = res.filter(item => !titles1.has(item.title));
+                    
+                    // const uniqueItems = [...uniqueInArray1, ...uniqueInArray2];
+                    
+                    // console.log('uniqueItems',uniqueItems);
+                    // setShow(uniqueItems);
+                } else {
+                    setShow(showData);
+                }
+            })
+            .catch(error => {
+                console.log('Error', error);
+            });
+            }
+        });
+    };
 
     const getStatusColor = (status) => {
         switch (status) {
@@ -88,11 +146,18 @@ const Document = (props) => {
         return (
             <TouchableOpacity 
                 onPress={() => {
-                   if(item?.title === 'Administrative Publishing Agreement'){
-                        props.navigation.navigate('AgreementNew');
+                if(item?.status === 'Done'){
+                    alert('Already Signed, Please Check Email Inbox and Junk Mail');
+                } else {
+                    let newdata = [];
+                    showData?.map((item,i) => {if(item?.status === 'Pending'){newdata.push(item)}});
+                    console.log('NEW DATA',newdata);
+                   if(item?.title === 'ADMINISTRATIVE PUBLISHING AGREEMENT'){
+                        props.navigation.navigate('AgreementNew',{data:newdata});
                    } else {
-                        props.navigation.navigate('AgreementNewLetter');
+                        props.navigation.navigate('AgreementNewLetter',{data:newdata});
                    }
+                }
                 }}  
                 style={{
                     flexDirection: 'row',
@@ -118,7 +183,7 @@ const Document = (props) => {
                 <View style={{ flex: 1 }}>
                     <Text style={{
                         color: '#ffffff',
-                        fontSize: 15,
+                        fontSize: 16,
                         fontWeight: 'bold',
                         marginBottom: 5,
                     }}>

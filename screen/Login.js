@@ -1,15 +1,65 @@
-import React from "react";
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator } from "react-native";
 import { H, W, BackgroundClr } from './constant/Common'
 import Header from "./components/Header";
 import SocialMediaIcons from "./components/SocialMediaIcons";
 import Input from "./components/Input";
 import Button from "./components/Button";
-
+import AsyncStorage from "@react-native-community/async-storage";
+var validator = require("email-validator");
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const Login = (props) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const validation = () => {
+        const valid = validator.validate(email); // true
+        if(email === '' || password === ''){
+            alert("Please Fill All Data");
+        } else if(!valid){
+            alert("Please Enter Correct Email")
+        } else {
+            loginAPI();
+        }
+    }
+
+    const loginAPI = () => {
+        setLoading(true);
+        let body = {
+            email:email,
+            password:password
+        }
+        console.log('request Send',body);
+        fetch('https://zoahmusicbackend.onrender.com/api/signin', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+        })
+        .then(response => response.json())
+        .then(res => {
+            console.log('Login Response', res);
+            setLoading(false);
+            if(res?.message === 'User does not exist..!'){
+                alert(res?.message);
+            } else {;
+                AsyncStorage.setItem('UserData', JSON.stringify(res), () => {
+                    props.navigation.replace('BottomTabNavigator',{screen:'Document'});
+                });
+            }
+        })
+        .catch(error => {
+            setLoading(false);
+            console.log('Error', error);
+        });        
+    }
+
+
     return (
-        <ScrollView style={{ flex: 1, backgroundColor: BackgroundClr }}>
+        <KeyboardAwareScrollView style={{ flex: 1, flexGrow:1, backgroundColor: BackgroundClr }}>
 
             <Header onBackPress={() => props.navigation.navigate('LandingPage')} />
 
@@ -22,10 +72,10 @@ const Login = (props) => {
             <SocialMediaIcons />
 
             <Text style={{ color: 'white', marginLeft: W(10), marginBottom: H(1), marginTop: H(3) }}>Email</Text>
-            <Input placeholdertxt="Valid email addres" />
+            <Input onChangeText={(email) => setEmail(email)} placeholdertxt="Valid email addres" />
 
             <Text style={{ color: 'white', marginLeft: W(10), marginBottom: H(1), marginTop: H(2) }}>Password</Text>
-            <Input placeholdertxt="Use a strong password" secureTextEntry={true} />
+            <Input secureTextEntry={true} onChangeText={(password) => setPassword(password)} placeholdertxt="Use a strong password" />
 
             <View style={{
                 alignItems: 'flex-end',
@@ -37,7 +87,9 @@ const Login = (props) => {
                 <Text style={{ color: '#FFD497', }}>Forget Password</Text>
             </View>
 
-            <Button onPressButton={() => { props.navigation.navigate('BottomTabNavigator',{screen:'Document'}) }} alignSelf='center' txt='LOGIN' />
+            {loading ? (
+                <ActivityIndicator size={'large'} color={'#fff'} />
+            ):<Button onPressButton={() => {validation()}} alignSelf='center' txt='LOGIN' />}
 
             <View style={{ flexDirection: 'row', marginTop: H(5), alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ color: 'white' }}>Don't have an account?</Text>
@@ -45,7 +97,7 @@ const Login = (props) => {
             </View>
 
 
-        </ScrollView>
+        </KeyboardAwareScrollView>
     )
 }
-export default Login
+export default Login;

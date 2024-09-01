@@ -3,14 +3,14 @@ import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native';
 import { BackgroundClr, H } from '../constant/Common';
 import Icon from 'react-native-vector-icons/Entypo';
 
-const Settings = () => {
+const Settings = (props) => {
     const menuItems = [
-        { title: 'Account', icon: 'user', onPress: () => alert('Account') },
-        { title: 'Notifications', icon: 'bell', onPress: () => alert('Notifications'), badge: 3 },
-        { title: 'Privacy', icon: 'lock', onPress: () => alert('Privacy') },
-        { title: 'Help center', icon: 'help', onPress: () => alert('Help center') },
-        { title: 'General', icon: 'cog', onPress: () => alert('General') },
-        { title: 'About us', icon: 'info', onPress: () => alert('About us') },
+        { title: 'Account', icon: 'user', onPress: () => {props.navigation.navigate('BottomTabNavigator',{screen:'Profile'});} },
+        // { title: 'Notifications', icon: 'bell', onPress: () => alert('Notifications'), badge: 3 },
+        // { title: 'Privacy', icon: 'lock', onPress: () => alert('Privacy') },
+        // { title: 'Help center', icon: 'help', onPress: () => alert('Help center') },
+        // { title: 'General', icon: 'cog', onPress: () => alert('General') },
+        { title: 'About us', icon: 'info', onPress: () => {props?.navigation?.navigate('AboutUs')}},
     ];
 
 
