@@ -1,25 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native';
-import { BackgroundClr, H } from '../constant/Common';
+import { View, Text, Image, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
+import { BackgroundClr, H, W } from './constant/Common';
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-crop-picker';
+import Input from './components/Input';
+import Header from './components/Header';
+import Button from './components/Button';
 
-const Profile = (props) => {
-    const [profile, setProfile]=useState('Tyler Mason')
-    const [email, setEmail]=useState('tylermason309@gmail.com')
-    const menuItems = [
-        { title: 'Edit Profile', onPress: () => {props?.navigation?.navigate('EditProfile')}},
-        { title: 'Signout', onPress: () => {logOut()} },
-    ];
+const EditProfile = (props) => {
     const [userData, setUserData] = useState();
     const [img, setImg] = useState();
+    const [fName, setfName] = useState('');
+    const [lName, setlName] = useState('');
+    const [email, setEmail] = useState('');
+    const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        const willFocusSubscription = props?.navigation.addListener('focus', () => {
-            getProfile();
-        });
-        return willFocusSubscription;
-    },[]);
+    useEffect(() => {getProfile()},[])
 
     const imagePicker = () => {
         ImagePicker.openPicker({
@@ -29,13 +25,7 @@ const Profile = (props) => {
         }).then(image => {
           console.log('Image', image);
           setImg(image.path);
-          uploadImage(image.path)
-        });
-    }
-
-    const logOut = () => {
-        AsyncStorage.removeItem('UserData', (error, Data) => {
-            props?.navigation?.replace('LandingPage');
+        //   uploadImage(image.path);
         });
     }
 
@@ -57,27 +47,34 @@ const Profile = (props) => {
         .then(response => response.json())
         .then(res => {
             console.log('Login Response', res);
+            setLoading(false);
             setUserData(res);
+            setfName(res?.firstName);
+            setlName(res?.lastName);
+            setEmail(res?.email);
         })
         .catch(error => {
-            // setLoading(false);
+            setLoading(false);
             console.log('Error', error);
         });
         }
     });
     }
 
-    const uploadImage = (imageURL) => {
-        console.log('request Send',);
+    const uploadImage = () => {
+        setLoading(true);
+        console.log('request Send');
         let formdata = new FormData();
-        formdata.append('file', {
-            type: 'image/jpg',
-            uri: imageURL,
-            name: 'image.jpg',
-        });    
-        formdata.append('email', userData?.email);
-        formdata.append('firstName', userData?.firstName);
-        formdata.append('lastName', userData?.lastName);
+        if(img){
+            formdata.append('file', {
+                type: 'image/jpg',
+                uri: img,
+                name: 'image.jpg',
+            });
+        }
+        formdata.append('email', email);
+        formdata.append('firstName', fName);
+        formdata.append('lastName', lName);
         fetch('https://zoahmusicbackend.onrender.com/api/editprofile', {
             method: 'POST',
             body: formdata,
@@ -89,16 +86,19 @@ const Profile = (props) => {
             .then(response => response.json())
             .then(response => {
             console.log('PDF Response', response);
-            getProfile()
+            getProfile();
+            alert('User Updated Successfully')
             })
             .catch(error => {
             // alert(`Error Occured : ${error}`);
+            setLoading(false);
             console.log('Error', error);
             });
       };
 
     return (
         <View style={{ flex: 1, backgroundColor: BackgroundClr }}>
+            <Header onBackPress={() => props.navigation.navigate('BottomTabNavigator')} />
             <View style={{ alignItems: 'center', marginVertical: 20 }}>
                 <TouchableOpacity onPress={() => {imagePicker()}}>
                 {img? (
@@ -112,38 +112,32 @@ const Profile = (props) => {
                     style={{ width: 80, height: 80, borderRadius: 40, borderColor:'#FFD497', borderWidth:H(0.2), marginTop:H(3)}}
                 />
                 ):
-                <Image source={require('../assests/logo.png')}
+                <Image source={require('./assests/logo.png')}
                     style={{ width: 80, height: 80, borderRadius: 40,resizeMode:'contain', borderColor:'#FFD497', borderWidth:H(0.2), marginTop:H(3)}}
                 />}
                 </>}
                 </TouchableOpacity>
-
-                <Text style={{ fontSize: 18, fontWeight: 'bold', marginTop: 10, color: 'white' }}> {userData?.firstName} {userData?.lastName} </Text>
-                <Text style={{ fontSize: 14, color: 'white', marginBottom: 10 }}>{userData?.email}</Text>
             </View>
 
-            <FlatList
-                data={menuItems}
-                keyExtractor={(item) => item.title}
-                renderItem={({ item }) => (
-                    <TouchableOpacity
-                        style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            paddingVertical: 15,
-                            borderBottomWidth: 1,
-                            borderBottomColor: '#E5E5E5',
-                            paddingHorizontal: 20,
-                        }}
-                        onPress={item.onPress}
-                    >
-                        <Text style={{ fontSize: 16, color: 'white' }}>{item.title}</Text>
-                        <Text style={{ fontSize: 18, color: 'white' }}>›</Text>
-                    </TouchableOpacity>
-                )}
-            />
+            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+                    <View style={{width:W(38)}}>
+                    <Text style={{ color: 'white', marginBottom: H(1), marginTop: H(1) }}>First Name</Text>
+                    <Input value={fName} onChangeText={(fName) => setfName(fName)} placeholdertxt="Enter First Name" width={W(38)} />
+                    </View>
+                    <View style={{width:W(39),marginLeft:H(1)}}>
+                    <Text style={{ color: 'white', marginBottom: H(1), marginTop: H(1) }}>Last Name</Text>
+                    <Input value={lName} onChangeText={(lName) => setlName(lName)} placeholdertxt="Enter Last name" width={W(38)}  />
+                    </View>
+                </View>
+
+            <Text style={{ color: 'white', marginLeft: W(10), marginBottom: H(1), marginTop: H(2) }}>Email</Text>
+            <Input editable={false} value={email} placeholdertxt="Enter your email" />
+            <View style={{height:H(4)}} />
+            {loading ? (
+            <ActivityIndicator size={'large'} color={'#fff'} />
+            ):<Button onPressButton={() => {uploadImage()}} alignSelf='center' txt='Submit' />}
         </View>
     );
 };
 
-export default Profile;
+export default EditProfile;

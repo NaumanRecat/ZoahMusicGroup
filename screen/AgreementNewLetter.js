@@ -1,34 +1,152 @@
-import React, { useState } from "react";
-import { View, Text, ScrollView, TouchableOpacity, TextInput } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { View, Text, ScrollView, TouchableOpacity, TextInput, ActivityIndicator, Modal, Image } from "react-native";
 import { BackgroundClr, H, W } from "./constant/Common";
 import Header from "./components/Header";
 import Icon from 'react-native-vector-icons/Entypo';
 import Icon1 from 'react-native-vector-icons/Ionicons';
-import DatePicker from 'react-native-date-picker';
+import { captureRef } from "react-native-view-shot";
+import { createPdf } from 'react-native-images-to-pdf';
+import RNBlobUtil from 'react-native-blob-util';
+import Pdf from 'react-native-pdf';
+import AsyncStorage from "@react-native-community/async-storage";
+import Signature from "react-native-signature-canvas";
 
 const AgreementNewLetter = (props) => {
     const [disable, setDisable] = useState(true)
     const [date, setDate] = useState(new Date());
     const [open, setOpen] = useState(false);
+    const ViewRef = useRef();
+    const ref = useRef();
+    const [loading, setLoading] = useState(false);
+    const [captureImage, setcaptureImage] = useState();
+    const [pdfView, setPDFView] = useState();
+    const [showsignature, setShowSignature] = useState(false);
+    const [scroll, setScroll] = useState(true);
+
+    useEffect(() => {console.log('DATA',props?.route?.params?.data)},[])
+
+    // download image
+    const captureView = async () => {
+        try {
+            // react-native-view-shot caputures component
+            const uri = await captureRef(ViewRef, {
+                format: 'png',
+                quality: 0.9,
+            });
+            console.log('URI',uri);
+            // setcaptureImage(uri);
+            setLoading(true);
+            const options = {
+                pages: [
+                    { imagePath: Platform.OS === 'ios' ? 'file:///'+ uri :+ uri }
+                ],
+                outputPath: `file://${RNBlobUtil.fs.dirs.DocumentDir}/file.pdf`,
+            };
+            createPdf(options)
+                .then((path) => {
+                    console.log(`PDF created successfully: ${ "file:/" + path.split("file:/").join("")}`)
+                    let newPath = Platform.OS === 'ios' ? "file:/" + path.split("file:/").join(""):"file:///" + path.split("file:/").join("");
+                    uploadDocument(newPath);
+                })
+                .catch((error) => {
+                    console.log(`Failed to create PDF: ${error}`)
+                    setLoading(false);
+                });
+        } catch (error) {
+            console.log('error', error);
+            setLoading(false);
+        }
+    };
+
+    const uploadDocument = (path) => {
+        AsyncStorage.getItem('UserData', (error, Data) => {
+        if(!error && Data){
+        let getData = JSON.parse(Data);    
+        console.log('request Send',path);
+        let formdata = new FormData();
+        formdata.append('file', {
+            uri: path,
+            type: 'application/pdf',
+            name: 'upload.pdf',
+        });    
+        formdata.append('title', 'Letter of Direction');
+        formdata.append('email', getData?.user?.email);
+        formdata.append('status', 'Done');
+        fetch('https://zoahmusicbackend.onrender.com/api/submit_doc', {
+            method: 'POST',
+            body: formdata,
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'multipart/form-data',
+            },
+        })
+            .then(response => response.json())
+            .then(response => {
+            console.log('PDF Response', response);
+            if(props?.route?.params?.data?.length === 1){
+                sendEmail();
+            } else {
+                setLoading(false);
+                props?.navigation?.goBack();
+            }
+            })
+            .catch(error => {
+            // alert(`Error Occured : ${error}`);
+            console.log('Error', error);
+            // setLoading(false);
+            });
+        }
+        });
+    };
+
+    const sendEmail = () => {
+        AsyncStorage.getItem('UserData', (error, Data) => {
+            if(!error && Data){
+            let getData = JSON.parse(Data);
+            let body = {
+                email:getData?.user?.email,
+            }
+            console.log('request Send',body);
+            fetch('https://zoahmusicbackend.onrender.com/api/sendemail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+            })
+            .then(response => response.json())
+            .then(res => {
+                console.log('Login Response', res);
+                setLoading(false);
+                props?.navigation?.goBack();
+            })
+            .catch(error => {
+                setLoading(false);
+                console.log('Error', error);
+            });
+            }
+        });
+    }
+
     return (
         <View style={{ flex: 1, backgroundColor: BackgroundClr }}>
 
-            <Header onBackPress={() => props.navigation.navigate('BottomTabNavigator')} icon />
+            <Header onBackPress={() => props.navigation.navigate('BottomTabNavigator')} />
 
             <View style={{alignItems:'center'}}><Text style={{ fontSize: H(2.8), color: 'red', marginLeft: W(3), marginTop: H(4)}} >Letter of Direction</Text></View>
 
-            <ScrollView style={{ marginRight: W(3), padding: 5 }} showsVerticalScrollIndicator={false}>
-
+            <ScrollView scrollEnabled={scroll} style={{ marginRight: W(3), padding: 5, }} showsVerticalScrollIndicator={false}>
+            <View ref={ViewRef} style={{backgroundColor:BackgroundClr}} collapsable={false}>
                 <View style={{ height: H(5), flexDirection: 'row', alignSelf: 'center', marginTop: H(5) }}>
                     <Text style={{ fontWeight: 'bold', color: 'rgba(255, 255, 255, 1)' }}>As of</Text>
                     <TextInput
                         style={{
                             borderBottomWidth: H(0.2),
                             borderColor: 'grey',
-                            height: 10,
+                            height: 20,
                             marginLeft: 10,
                             width: W(55),
-                            color: 'rgba(255, 255, 255, 1)', // Set text color to 100% white
+                            color:'#fff',
                         }}
                     />
                 </View>
@@ -66,72 +184,62 @@ const AgreementNewLetter = (props) => {
                         style={{
                             borderBottomWidth: H(0.2),
                             borderColor: 'grey',
-                            height: 10,
+                            height: 22,
                             marginLeft: 10,
                             width: W(85),
-                            color: 'rgba(255, 255, 255, 1)', // Set text color to 100% white
+                            color: 'rgba(255, 255, 255, 1)', // Set text color to 100% white,
                         }}
                     />
                 </View>
+                <Text style={{color:"#fff",alignSelf:'center',marginTop:-15,marginBottom:22}}>FULL NAME</Text>
 
-                <View style={{ height: H(5), flexDirection: 'row', marginTop: H(1), marginLeft: W(5) }}>
-                    <Text style={{ fontWeight: 'bold', color: 'rgba(255, 255, 255, 1)' }}>By</Text>
-                    <TextInput
-                        style={{
-                            borderBottomWidth: H(0.2),
-                            borderColor: 'grey',
-                            height: 10,
-                            marginLeft: 10,
-                            width: W(40),
-                            color: 'rgba(255, 255, 255, 1)', // Set text color to 100% white
-                        }}
-                    />
+
+                <View style={{ flexDirection: 'row', width: H(40), alignSelf: 'stretch' }}>
+                    <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold', marginLeft: W(3) }}>Signature:</Text>
+                {captureImage && showsignature === false ? (
+                <View style={{
+                    backgroundColor: 'white',
+                    borderRadius: 5,
+                    height: 66,
+                    flex: 1,
+                    marginLeft: 10,
+                    paddingLeft: 10,
+                    justifyContent:'center'
+                }}>
+                    <Image source={{uri:captureImage}} style={{height:66,width:'100%',resizeMode:'center'}}/> 
                 </View>
-
-                <View style={{ height: H(5), flexDirection: 'row', marginTop: H(1), marginLeft: W(5) }}>
-                    <Text style={{ fontWeight: 'bold', color: 'rgba(255, 255, 255, 1)' }}>By</Text>
-                    <TextInput
-                        style={{
-                            borderBottomWidth: H(0.2),
-                            borderColor: 'grey',
-                            height: 10,
-                            marginLeft: 10,
-                            width: W(40),
-                            color: 'rgba(255, 255, 255, 1)', // Set text color to 100% white
-                        }}
-                    />
+                ):
+                <TouchableOpacity onPress={() => {setShowSignature(true)}} style={{
+                    backgroundColor: 'white',
+                    borderRadius: 5,
+                    height: 66,
+                    flex: 1,
+                    marginLeft: 10,
+                    paddingLeft: 10,
+                    justifyContent:'center'
+                }}>
+                </TouchableOpacity>}
                 </View>
-
-                <Text style={{ fontSize: H(2), marginLeft: W(5), marginTop: H(3) }}>
-                    <Text style={{ color: 'rgba(255, 255, 255, 1)' }}>G Syier Hawkins Brown CEO</Text>
-                </Text>
 
                 
-                <View style={{ height: H(5), flexDirection: 'row', alignSelf: 'center', marginTop: H(2) }}>
+                <View style={{ height: H(4), flexDirection: 'row', alignSelf: 'center'  }}/>
+
+                <View style={{ height: H(5), flexDirection: 'row', alignItems:'center', marginTop: H(1), marginLeft: W(5) }}>
+                    <Text style={{ fontWeight: 'bold', color: 'rgba(255, 255, 255, 1)' }}>Date</Text>
                     <TextInput
+                    editable={false}
+                    value={new Date().toLocaleDateString()}
                         style={{
                             borderBottomWidth: H(0.2),
                             borderColor: 'grey',
-                            height: 10,
+                            height: 22,
                             marginLeft: 10,
-                            width: W(85),
-                            color: 'rgba(255, 255, 255, 1)', // Set text color to 100% white
+                            width: W(20),
+                            color: 'rgba(255, 255, 255, 1)', // Set text color to 100% white,
                         }}
                     />
                 </View>
-
-                <View style={{ height: H(5), flexDirection: 'row', marginTop: H(1), marginLeft: W(5) }}>
-                    <Text style={{ fontWeight: 'bold', color: 'rgba(255, 255, 255, 1)' }}>Date</Text>
-                    <TextInput
-                        style={{
-                            borderBottomWidth: H(0.2),
-                            borderColor: 'grey',
-                            height: 10,
-                            marginLeft: 10,
-                            width: W(40),
-                            color: 'rgba(255, 255, 255, 1)', // Set text color to 100% white
-                        }}
-                    />
+                
                 </View>
 
                 <View style={{
@@ -148,7 +256,7 @@ const AgreementNewLetter = (props) => {
                             disable ? <TouchableOpacity style={{
                                 backgroundColor: '#553A00',
                                 borderRadius: H(2.5),
-                                height: H(5),
+                                height: H(4),
                                 padding: 10,
                                 marginHorizontal: 10,
                             }}>
@@ -168,7 +276,7 @@ const AgreementNewLetter = (props) => {
                         <TouchableOpacity style={{
                             backgroundColor: '#FFD497',
                             borderRadius: H(2.5),
-                            height: H(5),
+                            height: H(4),
                             padding: 10,
                             marginHorizontal: 4,
                         }}>
@@ -180,28 +288,84 @@ const AgreementNewLetter = (props) => {
 
 
                     <View>
-                        <TouchableOpacity onPress={()=>props.navigation.navigate('LandingPage')} style={{
-                            backgroundColor: '#FFD497',
-                            borderRadius: 50,
-                            paddingVertical: 10,
-                            paddingHorizontal: 20,
-                            marginHorizontal: 10,
-                            marginLeft: W(10),
-                            flexDirection: 'row',
-                            alignItems: 'center'
-                        }}>
-                            <Icon1 name="checkmark-circle-sharp" size={15} color="black" />
-                            <Text style={{
-                                color: '#000',
-                                fontSize: 16,
-                                fontWeight: 'bold',
-                                marginLeft: W(1)
-                            }}>Finish</Text>
-                        </TouchableOpacity>
+                    {loading ? (<ActivityIndicator size={'large'} color={'#fff'} />):
+                    <TouchableOpacity onPress={()=> {captureView()}} style={{
+                        backgroundColor: '#FFD497',
+                        borderRadius: 50,
+                        paddingVertical: 10,
+                        paddingHorizontal: 20,
+                        marginHorizontal: 10,
+                        marginLeft: W(10),
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }}>
+                        <Icon1 name="checkmark-circle-sharp" size={15} color="black" />
+                        <Text style={{
+                            color: '#000',
+                            fontSize: 16,
+                            fontWeight: 'bold',
+                            marginLeft: W(1)
+                        }}>Finish</Text>
+                    </TouchableOpacity>}
                     </View>
                 </View>
 
             </ScrollView>
+
+            <Modal
+                visible={showsignature}
+                animationType={'fade'}
+                transparent={true}>
+                    <View style={{
+                        flex:1,
+                        backgroundColor:'#0005',
+                        alignItems:'center',
+                        justifyContent:'center'
+                    }}>
+                        <View style={{
+                            height:360,
+                            width:W(88),
+                            alignItems:'center',
+                            // backgroundColor:'#fff',
+                            borderRadius:H(1),
+                            justifyContent:'center',
+                        }}>
+                        <Signature
+                            style={{
+                                borderRadius: 10,
+                                flex:1,
+                                height: 360,
+                                overflow:'hidden',
+                            }}
+                            ref={ref}
+                            onEnd={() => {
+                                ref.current.readSignature();
+                                setScroll(true);
+                            }}
+                            onBegin={() => {setScroll(false)}}
+                            onOK={(signature)=> {
+                                console.log(signature);
+                                setcaptureImage(signature);
+                            }}
+                            onEmpty={() => {console.log("Empty");}}
+                            onClear={() => {console.log("clear success!");}}
+                            onGetData={() => {setShowSignature(false)}}
+                            autoClear={false}
+                            descriptionText=""
+                            // clear button text
+                            clearText="Clear"
+                            // save button text
+                            confirmText="Save"
+                            // String, webview style for overwrite default style, all style: https://github.com/YanYuanFE/react-native-signature-canvas/blob/master/h5/css/signature-pad.css
+                            webStyle={`.m-signature-pad--footer
+                            .button {
+                                background-color: '#FFD497';
+                                color: #FFF;
+                            }`}
+                            />
+                        </View>
+                    </View>
+                </Modal>
 
         </View>
     )

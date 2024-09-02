@@ -14,9 +14,9 @@ const Header = (props) => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
             }}>
-                <TouchableOpacity onPress={props.onBackPress} style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <TouchableOpacity onPress={props.onBackPress} style={{ flexDirection: 'row', marginTop:H(1),alignItems: 'center' }}>
                     <Icon name="arrowleft" size={20} color="#FFD497" />
-                    <Text style={{ color: '#FFD497' }}>Back</Text>
+                    <Text style={{ color: '#FFD497', marginLeft:H(1) }}>Back</Text>
                 </TouchableOpacity>
 
                 {
