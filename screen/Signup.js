@@ -112,9 +112,9 @@ const Signup = (props) => {
                 <Text style={{ fontSize: H(2.5), color: 'grey', marginTop: H(1), fontWeight: 'bold', marginLeft: W(3) }}>SIGN UP TO GET STARTED</Text>
             </View>
 
-            <SocialMediaIcons />
+            {/* <SocialMediaIcons /> */}
 
-            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center', marginTop:H(11)}}>
                 <View style={{width:W(38)}}>
                 <Text style={{ color: 'white', marginBottom: H(1), marginTop: H(1) }}>First Name</Text>
                 <Input onChangeText={(fName) => setfName(fName)} placeholdertxt="Enter First Name" width={W(38)} />

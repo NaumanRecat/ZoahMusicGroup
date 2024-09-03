@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Header from '../components/Header';
 
 const ForgetStep1 = (props) => {
   const [email, setEmail] = useState('');
@@ -63,16 +64,16 @@ const ForgetStep1 = (props) => {
         flex: 1,
         backgroundColor: '#000',
         alignItems: 'center',
-        justifyContent: 'center',
         padding: 20,
-      }}
-    >
+      }}>
+        <Header onBackPress={() => props.navigation.navigate('LandingPage')} />
       <Image
         source={require('../assests/logo.png')}
         style={{
           width: 250,
           height: 100,
           marginBottom: 30,
+          marginTop:100
         }}
       />
 
@@ -96,11 +97,11 @@ const ForgetStep1 = (props) => {
           marginBottom: 20,
         }}
       >
-        <Icon name="envelope" size={20} color="#FFD497" style={{ marginRight: 10 }} />
+        <Icon name="envelope" size={20} color="#FFD497" style={{ marginRight: 10, marginLeft:5 }} />
         <TextInput
           style={{
             flex: 1,
-            height: 40,
+            height: 55,
             color: '#fff',
           }}
           placeholder="Email"

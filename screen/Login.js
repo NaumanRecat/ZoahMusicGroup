@@ -76,9 +76,9 @@ const Login = (props) => {
                 <Text style={{ fontSize: H(2.5), color: 'grey', fontWeight: 'bold' }} >CREDENTIALS TO LOGIN</Text>
             </View>
 
-            <SocialMediaIcons />
+            {/* <SocialMediaIcons /> */}
 
-            <Text style={{ color: 'white', marginLeft: W(10), marginBottom: H(1), marginTop: H(3) }}>Email</Text>
+            <Text style={{ color: 'white', marginLeft: W(10), marginBottom: H(1), marginTop: H(11) }}>Email</Text>
             <Input onChangeText={(email) => setEmail(email)} placeholdertxt="Valid email addres" />
 
             <Text style={{ color: 'white', marginLeft: W(10), marginBottom: H(1), marginTop: H(2) }}>Password</Text>
