@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator, Alert } from "react-native";
 import { H, W, BackgroundClr } from './constant/Common';
 import Header from "./components/Header";
 import SocialMediaIcons from "./components/SocialMediaIcons";
@@ -51,6 +51,10 @@ const Signup = (props) => {
             console.log('SignUp Response', res);
             if(res?.message === 'User already registered'){
                 alert(res?.message);
+                setLoading(false);
+            } else if (res.error) {
+                alert(res.error);
+                setLoading(false);
             } else {
                 setTimeout(() => {
                     loginAPI();                    

@@ -45,7 +45,12 @@ const Login = (props) => {
             setLoading(false);
             if(res?.message === 'User does not exist..!'){
                 alert(res?.message);
-            } else {;
+            } else if (res.message === 'Something went wrong!') {
+                alert('Email or Password Incorrect');
+                setLoading(false);
+            } else if (res.error){
+                alert(res?.error);
+            } else {
                 AsyncStorage.setItem('UserData', JSON.stringify(res), () => {
                     props.navigation.replace('BottomTabNavigator',{screen:'Document'});
                 });
@@ -56,6 +61,8 @@ const Login = (props) => {
             console.log('Error', error);
         });        
     }
+
+
 
 
     return (
@@ -77,7 +84,9 @@ const Login = (props) => {
             <Text style={{ color: 'white', marginLeft: W(10), marginBottom: H(1), marginTop: H(2) }}>Password</Text>
             <Input secureTextEntry={true} onChangeText={(password) => setPassword(password)} placeholdertxt="Use a strong password" />
 
-            <View style={{
+            <TouchableOpacity
+            onPress={()=>props.navigation.navigate('ForgetStep1')}
+            style={{
                 alignItems: 'flex-end',
                 justifyContent: 'flex-end',
                 width: W(90),
@@ -85,7 +94,7 @@ const Login = (props) => {
                 marginBottom: H(2.5)
             }}>
                 <Text style={{ color: '#FFD497', }}>Forget Password</Text>
-            </View>
+            </TouchableOpacity>
 
             {loading ? (
                 <ActivityIndicator size={'large'} color={'#fff'} />

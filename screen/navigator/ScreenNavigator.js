@@ -12,6 +12,12 @@ import AgreementNewLetter from '../AgreementNewLetter';
 import Splash from '../Splash';
 import EditProfile from '../EditProfile';
 import AboutUs from '../AboutUs';
+import ForgetStep1 from '../forgetpassword/ForgetStep1';
+import ForgetStep2 from '../forgetpassword/ForgetStep2';
+import ForgetStep3 from '../forgetpassword/ForgetStep3';
+
+
+
 
 
 
@@ -34,6 +40,9 @@ const ScreenNavigator =()=>{
         <Stack.Screen name="AboutUs" component={AboutUs} options={{headerShown:false}}/> 
         <Stack.Screen name="Signup" component={Signup} options={{headerShown:false}}/> 
         <Stack.Screen name="EditProfile" component={EditProfile} options={{headerShown:false}}/> 
+        <Stack.Screen name="ForgetStep1" component={ForgetStep1} options={{headerShown:false}}/> 
+        <Stack.Screen name="ForgetStep2" component={ForgetStep2} options={{headerShown:false}}/> 
+        <Stack.Screen name="ForgetStep3" component={ForgetStep3} options={{headerShown:false}}/> 
         </Stack.Navigator>
     </NavigationContainer>
   )
