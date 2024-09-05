@@ -57,7 +57,7 @@ const Signup = (props) => {
                 setLoading(false);
             } else {
                 setTimeout(() => {
-                    loginAPI();                    
+                    loginAPI();
                 }, 2000);
                 // AsyncStorage.setItem('UserData', JSON.stringify(res), () => {
                 //     props.navigation.replace('BottomTabNavigator',{screen:'Document'});

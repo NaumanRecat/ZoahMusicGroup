@@ -140,12 +140,14 @@ const AgreementNewLetter = (props) => {
                 <View style={{ height: H(5), flexDirection: 'row', alignSelf: 'center', marginTop: H(5) }}>
                     <Text style={{ fontWeight: 'bold', color: 'rgba(255, 255, 255, 1)' }}>As of</Text>
                     <TextInput
+                        editable={false}
+                        value={new Date().toLocaleDateString()}                    
                         style={{
                             borderBottomWidth: H(0.2),
                             borderColor: 'grey',
                             height: 20,
                             marginLeft: 10,
-                            width: W(55),
+                            width: W(18),
                             color:'#fff',
                         }}
                     />
