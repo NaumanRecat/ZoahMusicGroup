@@ -34,7 +34,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Allow ZoahMusicGroup to access you Photo library</string>
+	<string>Allow ZoahMusicGroup to access you Photo library to upload your profile image</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

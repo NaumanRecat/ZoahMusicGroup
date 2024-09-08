@@ -9,6 +9,7 @@ const Profile = (props) => {
     const [email, setEmail]=useState('tylermason309@gmail.com')
     const menuItems = [
         { title: 'Edit Profile', onPress: () => {props?.navigation?.navigate('EditProfile')}},
+        { title: 'Delete Profile', onPress: () => {deleteProfile()} },
         { title: 'Signout', onPress: () => {logOut()} },
     ];
     const [userData, setUserData] = useState();
@@ -36,6 +37,34 @@ const Profile = (props) => {
     const logOut = () => {
         AsyncStorage.removeItem('UserData', (error, Data) => {
             props?.navigation?.replace('LandingPage');
+        });
+    }
+
+    const deleteProfile = () => {
+        AsyncStorage.getItem('UserData', (error, Data) => {
+            if(!error && Data){
+            let getData = JSON.parse(Data);
+            let body = {
+                email:getData?.user?.email,
+            }
+            console.log('request Send',body);
+            fetch('https://zoahmusicbackend.onrender.com/api/deleteuser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+            })
+            .then(response => response.json())
+            .then(res => {
+                console.log('Login Response', res);
+                logOut();
+            })
+            .catch(error => {
+                // setLoading(false);
+                console.log('Error', error);
+            });
+            }
         });
     }
 

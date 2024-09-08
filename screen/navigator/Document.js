@@ -18,11 +18,11 @@ const Document = (props) => {
     const [selectedStatus, setSelectedStatus] = useState('All'); // Default selected status is 'All'
 
     useEffect(() => {
+    getDocuments();
+    const willFocusSubscription = props?.navigation.addListener('focus', () => {
         getDocuments();
-        const willFocusSubscription = props?.navigation.addListener('focus', () => {
-            getDocuments();
-          });
-          return willFocusSubscription;
+    });
+    return willFocusSubscription;
     },[]);
 
     const getDocuments = () => {

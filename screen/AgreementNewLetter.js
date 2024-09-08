@@ -23,7 +23,7 @@ const AgreementNewLetter = (props) => {
     const [showsignature, setShowSignature] = useState(false);
     const [scroll, setScroll] = useState(true);
 
-    useEffect(() => {console.log('DATA',props?.route?.params?.data)},[])
+    useEffect(() => {console.log('DATA',props?.route?.params?.data)},[]);
 
     // download image
     const captureView = async () => {
@@ -38,14 +38,17 @@ const AgreementNewLetter = (props) => {
             setLoading(true);
             const options = {
                 pages: [
-                    { imagePath: Platform.OS === 'ios' ? 'file:///'+ uri :+ uri }
+                    // { imagePath: Platform.OS === 'ios' ? 'file:///'+ uri :+ uri }
+                    { imagePath: uri }
                 ],
                 outputPath: `file://${RNBlobUtil.fs.dirs.DocumentDir}/file.pdf`,
             };
+            console.log('OPT',options);
             createPdf(options)
                 .then((path) => {
                     console.log(`PDF created successfully: ${ "file:/" + path.split("file:/").join("")}`)
-                    let newPath = Platform.OS === 'ios' ? "file:/" + path.split("file:/").join(""):"file:///" + path.split("file:/").join("");
+                    let newPath = Platform.OS === 'ios' ? "file:/" + path.split("file:/").join(""):"file://" + path.split("file:/").join("");
+                    console.log('PATH',newPath);
                     uploadDocument(newPath);
                 })
                 .catch((error) => {
@@ -141,14 +144,16 @@ const AgreementNewLetter = (props) => {
                     <Text style={{ fontWeight: 'bold', color: 'rgba(255, 255, 255, 1)' }}>As of</Text>
                     <TextInput
                         editable={false}
-                        value={new Date().toLocaleDateString()}                    
+                        value={new Date().toLocaleDateString()}
                         style={{
                             borderBottomWidth: H(0.2),
                             borderColor: 'grey',
-                            height: 20,
+                            height: 28,
+                            paddingBottom:-10,
                             marginLeft: 10,
-                            width: W(18),
+                            width: W(19),
                             color:'#fff',
+                            marginTop:-8
                         }}
                     />
                 </View>
@@ -234,7 +239,8 @@ const AgreementNewLetter = (props) => {
                         style={{
                             borderBottomWidth: H(0.2),
                             borderColor: 'grey',
-                            height: 22,
+                            height: 28,
+                            paddingBottom:-10,
                             marginLeft: 10,
                             width: W(20),
                             color: 'rgba(255, 255, 255, 1)', // Set text color to 100% white,

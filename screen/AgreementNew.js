@@ -37,7 +37,8 @@ const AgreementNew = (props) => {
             setLoading(true);
             const options = {
                 pages: [
-                  { imagePath: Platform.OS === 'ios' ? 'file:///'+ uri :+ uri }
+                //   { imagePath: Platform.OS === 'ios' ? 'file:///'+ uri :+ uri }
+                { imagePath: uri }
                 ],
                 outputPath: `file://${RNBlobUtil.fs.dirs.DocumentDir}/file.pdf`,
             };
