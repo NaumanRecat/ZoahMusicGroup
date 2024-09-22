@@ -18,6 +18,9 @@ const Header = (props) => {
                     <Icon name="arrowleft" size={20} color="#FFD497" />
                     <Text style={{ color: '#FFD497', marginLeft:H(1) }}>Back</Text>
                 </TouchableOpacity>
+                {props?.title ? (
+                <Text style={{color:'#fff',marginTop:H(1),fontSize:16,fontWeight:'600'}}>{props?.title}</Text>
+                ):null}
 
                 {
                     props?.icon ? 

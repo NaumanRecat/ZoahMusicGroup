@@ -137,7 +137,7 @@ const Profile = (props) => {
                 ):
                 <>
                 {userData?.profilePicture ? (
-                <Image source={{uri:"https://zoahmusicbackend.onrender.com/files/"+userData?.profilePicture}}
+                <Image source={{uri:userData?.profilePicture}}
                     style={{ width: 80, height: 80, borderRadius: 40, borderColor:'#FFD497', borderWidth:H(0.2), marginTop:H(3)}}
                 />
                 ):

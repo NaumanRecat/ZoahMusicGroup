@@ -1,20 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native';
 import { BackgroundClr, H } from '../constant/Common';
 import Icon from 'react-native-vector-icons/Entypo';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const Settings = (props) => {
-    const menuItems = [
-        { title: 'Account', icon: 'user', onPress: () => {props.navigation.navigate('BottomTabNavigator',{screen:'Profile'});} },
-        // { title: 'Notifications', icon: 'bell', onPress: () => alert('Notifications'), badge: 3 },
-        // { title: 'Privacy', icon: 'lock', onPress: () => alert('Privacy') },
-        // { title: 'Help center', icon: 'help', onPress: () => alert('Help center') },
-        // { title: 'General', icon: 'cog', onPress: () => alert('General') },
-        { title: 'About us', icon: 'info', onPress: () => {props?.navigation?.navigate('AboutUs')}},
-    ];
+    const [menuItems, setmenuItems] = useState([
+        { title: 'Account', icon: 'user', onPress: () => {props.navigation.navigate('BottomTabNavigator',{screen:'Profile'});}, show:true },
+        { title: 'About us', icon: 'info', onPress: () => {props?.navigation?.navigate('AboutUs')}, show:true},
+        { title: 'All Documents', icon: 'cog', onPress: () => {props?.navigation?.navigate('AllDocuments')}, show:false }
+    ]);
+    const [refresh, setReferesh] = useState(0);
 
+    useEffect(() => {GetData()},[])
 
+    const GetData = () => {
+        AsyncStorage.getItem('UserData', (error, Data) => {
+          if (!error && Data !== null) {
+            if(
+                JSON.parse(Data)?.user?.email === 'husnainzahid701@gmail.com' || 
+                JSON.parse(Data)?.user?.email === 'BACKOFFICESUPPORT.publishing@zoahmusichouse.com' ||
+                JSON.parse(Data)?.user?.email === 'gsyier.ceo@zoahmusichouse.com' || 
+                JSON.parse(Data)?.user?.email === 'hitsongs@zoahmusichouse.com' || 
+                JSON.parse(Data)?.user?.email === '⁠longevityfinancialsolutions@gmail.com' ||
+                JSON.parse(Data)?.user?.email === 'yalifemedia@gmail.com'
+            ){
+                menuItems[2].show = true;
+                let ref = refresh+1;
+                setReferesh(ref);
+            }
+          }
+        });
+      };
+    
     const renderItem = ({ item }) => (
+        <>
+        {item?.show === true ? (
         <TouchableOpacity 
             style={{ 
                 flexDirection: 'row', 
@@ -56,6 +77,8 @@ const Settings = (props) => {
             )}
             <Text style={{ fontSize: 18, color: 'white' }}>›</Text>
         </TouchableOpacity>
+        ):null}
+        </>
     );
 
     return (

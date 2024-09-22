@@ -11,6 +11,7 @@ import { createPdf } from 'react-native-images-to-pdf';
 import RNBlobUtil from 'react-native-blob-util';
 import Pdf from 'react-native-pdf';
 import AsyncStorage from "@react-native-community/async-storage";
+import Button from "./components/Button";
 
 const AgreementNew = (props) => {
     const [disable, setDisable] = useState(true)
@@ -23,6 +24,7 @@ const AgreementNew = (props) => {
     const [loading, setLoading] = useState(false);
     const [pdfView, setPDFView] = useState();
     const [showsignature, setShowSignature] = useState(false);
+    const [showSuccess, setShowSucces] = useState(false);
 
     // download image
     const captureView = async () => {
@@ -37,8 +39,8 @@ const AgreementNew = (props) => {
             setLoading(true);
             const options = {
                 pages: [
-                //   { imagePath: Platform.OS === 'ios' ? 'file:///'+ uri :+ uri }
-                { imagePath: uri }
+                  { imagePath: Platform.OS === 'ios' ? 'file:///'+ uri :+ uri }
+                // { imagePath: uri }
                 ],
                 outputPath: `file://${RNBlobUtil.fs.dirs.DocumentDir}/file.pdf`,
             };
@@ -119,7 +121,7 @@ const AgreementNew = (props) => {
             .then(res => {
                 console.log('Login Response', res);
                 setLoading(false);
-                props?.navigation?.goBack();
+                setShowSucces(true);
             })
             .catch(error => {
                 setLoading(false);
@@ -398,6 +400,39 @@ const AgreementNew = (props) => {
                 </View>
             </View>
         </Modal>
+        <Modal visible={showSuccess} animationType={'fade'} transparent={true}>
+            <View style={{
+                flex:1,
+                backgroundColor:'#0004',
+                alignItems:'center',
+                justifyContent:'center'
+            }}>
+                <View style={{
+                    height:H(40),
+                    width:W(88),
+                    backgroundColor:BackgroundClr,
+                    borderWidth:H(.1),
+                    borderColor:'#fff',
+                    borderRadius:H(1),
+                }}>
+                    <Image
+                    style={{
+                        width: W(44),
+                        height: H(15),
+                        resizeMode: 'contain',
+                        alignSelf:'center'
+                    }}
+                    source={require('./assests/logo.png')}/>
+                    <Text style={{color:'#fff',paddingLeft:H(3),paddingRight:H(3),textAlign:'justify'}}>Thank You for signing the two documents. Please check your email for the next steps. If you don't see an email from Zoah Music Group, Kindly check your spam or junk folder.</Text>
+                    <Text style={{color:'#fff',paddingLeft:H(3),paddingRight:H(3),marginTop:H(2)}}>Best Regrads</Text>
+                    <Text style={{color:'#fff',paddingLeft:H(3),paddingRight:H(3),marginBottom:H(3)}}>Zoah Music Group</Text>
+                    <Button onPressButton={() => {
+                        setShowSucces(false);
+                        props?.navigation?.goBack();
+                    }} alignSelf='center' txt='Close' />
+                </View>
+            </View>
+           </Modal>
         </View>
     )
 }

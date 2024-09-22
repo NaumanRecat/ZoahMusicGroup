@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, View, Text, TouchableOpacity, Image } from "react-native";
+import { FlatList, View, Text, TouchableOpacity, Image, Modal } from "react-native";
 import { BackgroundClr, H, W } from "../constant/Common";
 import AsyncStorage from "@react-native-community/async-storage";
+import Button from "../components/Button";
 
 const Document = (props) => {
     const [data, setData] = useState([
@@ -120,7 +121,7 @@ const Document = (props) => {
                 <View style={{
                     position: 'absolute',
                     top: -8,
-                    right: -8,
+                    right: -1,
                     backgroundColor: isSelected ? '#FFD497' : '#3a3a3a', 
                     borderRadius: 10,
                     paddingHorizontal: 6,

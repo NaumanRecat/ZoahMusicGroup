@@ -15,6 +15,7 @@ import AboutUs from '../AboutUs';
 import ForgetStep1 from '../forgetpassword/ForgetStep1';
 import ForgetStep2 from '../forgetpassword/ForgetStep2';
 import ForgetStep3 from '../forgetpassword/ForgetStep3';
+import AllDocuments from '../AllDocuments';
 
 
 
@@ -43,6 +44,7 @@ const ScreenNavigator =()=>{
         <Stack.Screen name="ForgetStep1" component={ForgetStep1} options={{headerShown:false}}/> 
         <Stack.Screen name="ForgetStep2" component={ForgetStep2} options={{headerShown:false}}/> 
         <Stack.Screen name="ForgetStep3" component={ForgetStep3} options={{headerShown:false}}/> 
+        <Stack.Screen name="AllDocuments" component={AllDocuments} options={{headerShown:false}}/> 
         </Stack.Navigator>
     </NavigationContainer>
   )
