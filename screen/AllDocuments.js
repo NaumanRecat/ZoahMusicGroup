@@ -4,6 +4,9 @@ import { BackgroundClr, H, W } from "./constant/Common";
 import Header from "./components/Header";
 import Pdf from 'react-native-pdf';
 import Entypo from 'react-native-vector-icons/dist/Entypo';
+import Feather from 'react-native-vector-icons/dist/Feather';
+import ReactNativeBlobUtil from 'react-native-blob-util'
+import Share from 'react-native-share';
 
 const AllDocuments = (props) => {
     const [data, setData] = useState([]);
@@ -28,7 +31,41 @@ const AllDocuments = (props) => {
             setLoading(false);
             console.log('Error', error);
         });
-    }    
+    }
+
+    const downloadFile = () => {
+        let dirs = ReactNativeBlobUtil.fs.dirs;
+        ReactNativeBlobUtil.config({
+          fileCache: true,
+          appendExt: 'pdf',
+          path: `${dirs.DocumentDir}/${pdfView?.name} ${pdfView.title}.pdf`,
+          addAndroidDownloads: {
+            useDownloadManager: true,
+            notification: true,
+            title: pdfView.title,
+            description: 'File downloaded by admin.',
+            mime: 'application/pdf',
+          },
+        })
+          .fetch('GET', pdfView.pdf)
+          .then((res) => {
+            // in iOS, we want to save our files by opening up the saveToFiles bottom sheet action.
+            // whereas in android, the download manager is handling the download for us.
+            if (Platform.OS === 'ios') {
+              const filePath = res.path();
+              console.log('FILE Save at ',filePath);
+              let options = {
+                type: 'application/pdf',
+                url: filePath,
+                // saveToFiles: true,
+              };
+              Share.open(options)
+                .then((resp) => console.log(resp))
+                .catch((err) => console.log(err));
+            }
+          })
+          .catch((err) => console.log('BLOB ERROR -> ', err));
+      };
 
     return(
         <View style={{
@@ -115,9 +152,14 @@ const AllDocuments = (props) => {
                 </View>
                 <View>
                 </View>
-                <TouchableOpacity onPress={() => {setshowPDF(false)}} style={{alignSelf:'flex-end', marginRight:H(1),marginBottom:H(2)}}>
-                    <Entypo name={'cross'} size={22} color={'#fff'} />
+                <View style={{flexDirection:'row',alignItems:'center'}}>
+                <TouchableOpacity onPress={() => {downloadFile()}} style={{alignSelf:'flex-end', marginRight:H(2),marginBottom:H(2)}}>
+                    <Feather name={'share'} size={20} color={'#fff'} />
                 </TouchableOpacity>
+                <TouchableOpacity onPress={() => {setshowPDF(false)}} style={{alignSelf:'flex-end', marginRight:H(1),marginBottom:H(2)}}>
+                    <Entypo name={'cross'} size={24} color={'#fff'} />
+                </TouchableOpacity>
+                </View>
                 </View>
                 <Text style={{color:'#fff',alignSelf:'center',fontSize:16,marginTop:H(1),fontWeight:'600'}}>{pdfView?.title}</Text>
                 {pdfView ? (
