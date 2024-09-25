@@ -13,7 +13,7 @@ const AllDocuments = (props) => {
     const [pdfView, setpdfView] = useState();
     const [showPDF, setshowPDF] = useState(false);
 
-    useEffect(() => {getAllDoc(getAllDoc)},[])
+    useEffect(() => {getAllDoc(getAllDoc)},[]);
 
     const getAllDoc = () => {
         fetch('https://zoahmusicbackend.onrender.com/api/getalldocuments', {

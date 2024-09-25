@@ -11,8 +11,9 @@ const Settings = (props) => {
         { title: 'All Documents', icon: 'cog', onPress: () => {props?.navigation?.navigate('AllDocuments')}, show:false }
     ]);
     const [refresh, setReferesh] = useState(0);
+    const [userData, setUserData] = useState();
 
-    useEffect(() => {GetData()},[])
+    useEffect(() => {getProfile()},[])
 
     const GetData = () => {
         AsyncStorage.getItem('UserData', (error, Data) => {
@@ -32,6 +33,39 @@ const Settings = (props) => {
           }
         });
       };
+
+      const getProfile = () => {
+        AsyncStorage.getItem('UserData', (error, Data) => {
+            if(!error && Data){
+            let getData = JSON.parse(Data);
+            let body = {
+                email:getData?.user?.email,
+            }
+            console.log('request Send',body);
+            fetch('https://zoahmusicbackend.onrender.com/api/getprofile', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+            })
+            .then(response => response.json())
+            .then(res => {
+                console.log('Login Response', res);
+                setUserData(res);
+                if(res?.type === 'admin'){
+                    menuItems[2].show = true;
+                    let ref = refresh+1;
+                    setReferesh(ref);    
+                }
+            })
+            .catch(error => {
+                // setLoading(false);
+                console.log('Error', error);
+            });
+            }
+        });
+    };    
     
     const renderItem = ({ item }) => (
         <>
